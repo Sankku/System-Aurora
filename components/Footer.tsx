@@ -28,8 +28,8 @@ const Footer = () => {
         <div className="flex items-start flex-col">
           <Image
             src="/logo-wbg-bd.png"
-            width={100}
-            height={38}
+            width={160}
+            height={41}
             alt="Flexibble"
           />
           <p className="text-start text-sm font- mt-5 max-w-xs">
