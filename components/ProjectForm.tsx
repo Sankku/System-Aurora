@@ -1,22 +1,33 @@
 "use client";
 
-import { SessionInterface } from "@/common.types";
+import { ProjectInterface, SessionInterface } from "@/common.types";
 import Image from "next/image";
 import FormField from "./FormField";
 import CustomMenu from "./CustomMenu";
 import { categoryFilters } from "@/constants";
 import { useState } from "react";
 import Button from "./Button";
-import { createNewProject, fetchToken } from "@/lib/actions";
+import { createNewProject, fetchToken, updateProject } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 
 type Props = {
   type: string;
   session: SessionInterface;
+  project?: ProjectInterface;
 };
 
-const ProjectForm = ({ type, session }: Props) => {
+const ProjectForm = ({ type, session, project }: Props) => {
   const router = useRouter();
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [form, setForm] = useState({
+    title: project?.title || "",
+    description: project?.description || "",
+    liveSiteUrl: project?.liveSiteUrl || "",
+    githubUrl: project?.githubUrl || "",
+    image: project?.image || "",
+    category: project?.category || "",
+  });
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +41,10 @@ const ProjectForm = ({ type, session }: Props) => {
         await createNewProject(form, session?.user?.id, token);
 
         router.push("/");
+      }
+
+      if (type === "edit") {
+        await updateProject(form, project?.id as string, token);
       }
     } catch (error) {
       console.log(error);
@@ -67,16 +82,6 @@ const ProjectForm = ({ type, session }: Props) => {
       [fieldName]: value,
     }));
   };
-
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    liveSiteUrl: "",
-    githubUrl: "",
-    image: "",
-    category: "",
-  });
 
   return (
     <form onSubmit={handleFormSubmit} className="flexStart form">
@@ -129,11 +134,10 @@ const ProjectForm = ({ type, session }: Props) => {
         setState={(value) => handleStateChange("githubUrl", value)}
       />
       <CustomMenu
-        type="Category"
-        title={form.category}
+        title="Category"
+        state={form.category}
         filters={categoryFilters}
         setState={(value) => handleStateChange("category", value)}
-        state={""}
       />
       <div className="flexStart w-full">
         <Button

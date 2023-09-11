@@ -48,6 +48,10 @@ body {
   @apply md:text-5xl text-3xl font-extrabold text-left max-w-5xl w-full;
 }
 
+.home-head-text {
+  @apply md:text-4xl text-3xl font-extrabold text-left max-w-5xl w-full;
+}
+
 .no-result-text {
   @apply w-full text-center my-10 px-2;
 }
@@ -163,4 +167,39 @@ body {
 /* Profile Projects */
 .profile_projects {
   @apply grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-5;
+}
+
+/********* CAROUSEL **********/
+
+@layer components {
+  .carousel-btn-switch-card {
+    @apply absolute z-40 flex h-9 w-9 cursor-pointer items-center justify-center
+      rounded-full border-2 border-[#302e30] bg-[#c0c0c0] text-2xl opacity-75 transition duration-300 hover:opacity-100 md:h-12 md:w-12;
+  }
+
+  .carousel-btn-switch-card-left {
+    @apply right-1/2 top-1/2 translate-x-[-200px] translate-y-[-50%] transform sm:translate-x-[-250px] md:translate-x-[-300px] lg:translate-x-[-350px];
+  }
+
+  .carousel-btn-switch-card-right {
+    @apply top-1/2 left-1/2 translate-x-[200px] translate-y-[-50%] transform sm:translate-x-[250px] md:translate-x-[300px] lg:translate-x-[350px];
+  }
+
+  .carousel-indicator {
+    @apply absolute left-1/2 -bottom-4 flex h-5 w-24 -translate-x-1/2 transform items-center justify-center space-x-1 md:-bottom-10;
+  }
+
+  .carousel-indicator-dots {
+    @apply h-2 w-2 rounded-full bg-[#6b6b6b] opacity-50  transition-all duration-500 hover:w-4 hover:opacity-100;
+  }
+
+  .carousel-container {
+    @apply relative max-w-lg max-h-full w-4/5 sm:h-40 md:h-72;
+    perspective: 450px;
+    transform-style: preserve-3d;
+  }
+
+  .carousel-item {
+    @apply absolute border-solid border-2 border-indigo-500/100 h-full w-full cursor-pointer overflow-hidden rounded-3xl drop-shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-700 ease-in-out;
+  }
 }
