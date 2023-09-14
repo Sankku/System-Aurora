@@ -28,6 +28,8 @@ const Project = g
     githubUrl: g.url(),
     category: g.string().search(),
     createdBy: g.relation(() => User),
+    likes: g.int().default(0),
+    views: g.int().default(0),
   })
   .auth((rules) => {
     rules.public().read();

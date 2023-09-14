@@ -203,3 +203,5 @@ body {
     @apply absolute border-solid border-2 border-indigo-500/100 h-full w-full cursor-pointer overflow-hidden rounded-3xl drop-shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-700 ease-in-out;
   }
 }
+
+/*******************Buttons**********************/

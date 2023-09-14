@@ -56,7 +56,7 @@ export const createUserMutation = `
 
 export const projectsQuery = `
 query getProjects($category: String, $endcursor: String) {
-  projectSearch(first: 8, after: $endcursor, filter: {
+  projectSearch(first: 2, after: $endcursor, filter: {
     category: { eq: $category   }
   }) {
     pageInfo {
@@ -141,4 +141,46 @@ export const getProjectsOfUserQuery = `
       }
     }
   }
+`;
+
+export const incrementLikesMutation = `
+  mutation IncrementLikes($id: ID!, $increment: Int!) {
+  projectUpdate(by: { id: $id }, input: { likes: { increment: $increment } }) {
+    project {
+      id
+      likes
+    }
+  }
+}
+`;
+
+export const decrementLikesMutation = `
+mutation DecrementLikes($id: ID!, $decrement: Int!) {
+  projectUpdate(by: { id: $id }, input: { likes: { decrement: $decrement } }) {
+    project {
+      id
+      likes
+    }
+  }
+}
+`;
+
+export const getLikesQuery = `
+  query getProjectLikes($id: ID!) {
+    project(by: { id: $id }) {
+      id
+      likes
+    }
+  }
+`;
+
+export const incrementViewsMutation = `
+  mutation IncrementViews($id: ID!, $increment: Int!) {
+  projectUpdate(by: { id: $id }, input: { views: { increment: $increment } }) {
+    project {
+      id
+      views
+    }
+  }
+}
 `;

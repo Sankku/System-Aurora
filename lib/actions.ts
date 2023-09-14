@@ -8,6 +8,10 @@ import {
   getUserQuery,
   projectsQuery,
   updateProjectMutation,
+  incrementLikesMutation,
+  incrementViewsMutation,
+  decrementLikesMutation,
+  getLikesQuery,
 } from "@/graphql";
 import { GraphQLClient } from "graphql-request";
 
@@ -161,4 +165,35 @@ export const updateProject = async (
 
   client.setHeader("Authorization", `Bearer ${token}`);
   return makeGraphQLRequest(updateProjectMutation, variables);
+};
+
+// Likes & views
+export const incrementLikes = (id: string, token: string) => {
+  client.setHeader("Authorization", `Bearer ${token}`);
+  return makeGraphQLRequest(incrementLikesMutation, {
+    id,
+    increment: 1,
+    token,
+  });
+};
+
+export const decrementLikes = (id: string, token: string) => {
+  client.setHeader("Authorization", `Bearer ${token}`);
+  return makeGraphQLRequest(decrementLikesMutation, {
+    id,
+    decrement: 1,
+    token,
+  });
+};
+
+export const getLikes = (id: string) => {
+  client.setHeader("x-api-key", apiKey);
+  const result = makeGraphQLRequest(getLikesQuery, id);
+  return result;
+};
+
+// Para incrementar views
+export const incrementViews = (id: any) => {
+  client.setHeader("x-api-key", apiKey);
+  return makeGraphQLRequest(incrementViewsMutation, { id, increment: 1 });
 };

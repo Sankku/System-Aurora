@@ -22,12 +22,11 @@ const ProfileMenu = ({ session }: { session: SessionInterface }) => {
               src={session.user.image}
               width={40}
               height={40}
-              className="rounded-full"
+              className="w-10 h-10 p-1 rounded-full ring-2 ring-[#b4b4b4] dark:ring-[#7d7d7d]"
               alt="user profile image"
             />
           )}
         </Menu.Button>
-
         <Transition
           show={openModal}
           as={Fragment}
@@ -45,7 +44,7 @@ const ProfileMenu = ({ session }: { session: SessionInterface }) => {
               {session?.user?.image && (
                 <Image
                   src={session?.user?.image}
-                  className="rounded-full"
+                  className="w-14 h-14 rounded-full"
                   width={80}
                   height={80}
                   alt="profile Image"

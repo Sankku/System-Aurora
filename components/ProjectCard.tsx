@@ -3,6 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  incrementLikes,
+  incrementViews,
+  fetchToken,
+  decrementLikes,
+  getLikes,
+} from "@/lib/actions";
 
 type Props = {
   id: string;
@@ -14,15 +21,33 @@ type Props = {
 };
 
 const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
-  const [randomLikes, setRandomLikes] = useState(0);
-  const [randomViews, setRandomViews] = useState("");
+  const [likes, setLikes] = useState(0);
+  const [views, setViews] = useState(0);
+  const [isLiking, setIsLiking] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
-  useEffect(() => {
-    setRandomLikes(Math.floor(Math.random() * 10000));
-    setRandomViews(
-      String((Math.floor(Math.random() * 10000) / 1000).toFixed(1) + "k")
-    );
-  }, []);
+  const handleLikes = async () => {
+    setIsLiking(true);
+
+    const { token } = await fetchToken();
+
+    try {
+      if (isLiked) {
+        await decrementLikes(id, token);
+        setLikes(likes - 1);
+      } else {
+        await incrementLikes(id, token);
+        setLikes(likes + 1);
+      }
+
+      // Invierte el estado de "isLiked"
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLiking(false);
+    }
+  };
 
   return (
     <div className="flexCenter flex-col rounded-2xl drop-shadow-card">
@@ -33,7 +58,7 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
           src={image}
           width={414}
           height={314}
-          className="w-full h-full object-cover rounded-2xl"
+          className="max-w-full max-sh-full object-cover rounded-2xl"
           alt="project image"
         />
 
@@ -58,12 +83,26 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
 
         <div className="flexCenter gap-3">
           <div className="flexCenter gap-2">
-            <Image src="/hearth.svg" width={13} height={12} alt="heart" />
-            <p className="text-sm">{randomLikes}</p>
+            <Image
+              className={`flexCenter rounded-full border-solid border-2 hover:bg-red-600 ${isLiking} ? bg-[#838383]`}
+              src="/hearth.svg"
+              width={17}
+              height={17}
+              alt="heart"
+              onClick={handleLikes}
+              style={{ cursor: "pointer" }}
+            />
+            <p className="text-sm">{likes}</p>
           </div>
           <div className="flexCenter gap-2">
-            <Image src="/eye.svg" width={12} height={9} alt="eye" />
-            <p className="text-sm">{randomViews}</p>
+            <Image
+              className="svg-border"
+              src="/eye.svg"
+              width={17}
+              height={17}
+              alt="eye"
+            />
+            <p className="text-sm">{views}</p>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import ProjectCard from "@/components/ProjectCard";
 import LoadMore from "@/components/LoadMore";
 import { fetchAllProjects } from "@/lib/actions";
 import Carousel from "@/components/Carousel/Carousel";
+import AboutCard from "@/components/AboutCard";
 import Image from "next/image";
 
 import project1 from "../public/project1.png";
@@ -53,15 +54,21 @@ const Home = async ({ searchParams: { category, endcursor } }: Props) => {
   if (projectsToDisplay.length === 0) {
     return (
       <section className="flexStart flex-col paddings">
+        <h3 className="font-bold">Start now</h3>
         <Categories />
-
         <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center p-8">
-          <div className="mb-10 flex flex-col  justify-center space-y-6">
+          <div className="mb-10 flex flex-col  justify-center space-y-6 max-w-4xl">
             <h1 className="text-4xl font-bold md:text-5xl">
               Discover amazing projects and connect with the best developers
             </h1>
+            <h3 className="text-2xl underline underline-offset-4 md:text-2xl">
+              Purchase the best projects of this community or hire the best
+              developers through his projects
+            </h3>
           </div>
           <Carousel items={imagesItems} />
+
+          <div className="pt-24 max-h-6/12"></div>
         </main>
       </section>
     );
